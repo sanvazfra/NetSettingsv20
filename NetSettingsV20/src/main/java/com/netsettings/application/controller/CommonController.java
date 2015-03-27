@@ -27,6 +27,7 @@ public class CommonController {
 		Interfaz interfaz = new Interfaz();
 		interfaz.setNombre(s.substring(47, s.length()));
 		interfaz.setTipo(s.substring(30,38));
+		//utilizar resources bundles
 		estado= s.substring(15,24).startsWith("c") || s.substring(15,24).startsWith("C") ? "Conectado" : "Desconectado"; 
 		interfaz.setEstado(estado);
 		return interfaz;
