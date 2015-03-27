@@ -1,0 +1,30 @@
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil <init>
+INFORMACIÓN: Logger init()
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Modulo configuracion rapida inicializada*********************
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Modulo Habilitar elementos inicializada*********************
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Barra de herramientas inicializada*********************
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Menu contextual inicializado*********************
+mar 27, 2015 4:59:51 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Pantalla MainWindow completa *********************
+mar 27, 2015 4:59:54 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Modulo configurar IP inicializada*********************
+mar 27, 2015 4:59:54 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *****************Modulo configurar proxy inicializada*********************
+mar 27, 2015 4:59:54 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: *********************Pantalla NEW PROFILE initialized******************
+mar 27, 2015 4:59:56 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: ##########Inicio el thread para flag:  1 ##########   
+0 - Obtener interfaces 
+1 - Obtener redes
+mar 27, 2015 4:59:56 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: ##########El proceso termino correctamente##########
+mar 27, 2015 4:59:58 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: ##########Inicio el thread para flag:  0 ##########   
+0 - Obtener interfaces 
+1 - Obtener redes
+mar 27, 2015 4:59:58 PM com.netsettings.application.controller.LoggerUtil infoMessage
+INFORMACIÓN: ##########El proceso termino correctamente##########
