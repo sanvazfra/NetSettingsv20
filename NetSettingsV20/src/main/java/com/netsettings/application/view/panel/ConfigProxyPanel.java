@@ -1,12 +1,17 @@
 package com.netsettings.application.view.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,8 +24,8 @@ import javax.swing.border.TitledBorder;
 
 import com.netsettings.application.controller.ClicHandler;
 import com.netsettings.application.controller.ComboHandler;
+import com.netsettings.application.controller.LoggerUtil;
 import com.netsettings.application.controller.RadioHandler;
-import com.netsettings.application.view.CommonView;
 
 public class ConfigProxyPanel extends JPanel{
 
@@ -43,9 +48,10 @@ public class ConfigProxyPanel extends JPanel{
 	private JTextField txtProxy;
 	public  JComboBox<String> cmbNetworks;
 	public JButton btnGetNeworks;
-	private CommonView commonView = new CommonView();
+	//private CommonView commonView = new CommonView();
 	private JLabel lblinfoAuth;
 	private JLabel lblinfoCifrado;
+	private JPanel networkImage = new NetWorkImage();
 	
 	
 	public ConfigProxyPanel(JFrame context){
@@ -140,17 +146,18 @@ public class ConfigProxyPanel extends JPanel{
 		layout.putConstraint(SpringLayout.NORTH, lblinfoCifrado, 120, SpringLayout.NORTH, this);//eje Y
 		
 		//revision pendiente para imagen*****************************
-//		layout.putConstraint(SpringLayout.WEST, networkIcon, 338, SpringLayout.WEST, this);//eje X
-//		layout.putConstraint(SpringLayout.SOUTH, networkIcon, 173, SpringLayout.NORTH, this);//eje Y
+		layout.putConstraint(SpringLayout.WEST, networkImage, 338, SpringLayout.WEST, this);//eje X
+		layout.putConstraint(SpringLayout.SOUTH, networkImage, 171, SpringLayout.NORTH, this);//eje Y
 		
 		add(rbEnableProxy);
 		add(rbDisableProxy);
 		add(txtProxy);
 		add(cmbNetworks);
 		add(btnGetNeworks);
-		
+		add(networkImage);
 		add(lblinfoAuth);
 		add(lblinfoCifrado);
+		
 	}
 	
 	public void aplicarEstilos(){
@@ -163,6 +170,9 @@ public class ConfigProxyPanel extends JPanel{
 //		btnCancelar.setToolTipText("Cancela la edicion");
 //		btnCancelar.setMnemonic(KeyEvent.VK_ESCAPE);
 //		
+		btnGetNeworks.setMnemonic(KeyEvent.VK_2);
+		btnGetNeworks.setToolTipText(resources.getString("tag.newprofile.configippanel.btngetinterfaces.tootiptex"));
+		
 		btnGetNeworks.setMnemonic(KeyEvent.VK_2);
 		btnGetNeworks.setToolTipText(resources.getString("tag.newprofile.configproxypanel.btngetnetworks.tootiptex"));
 	}
@@ -216,5 +226,60 @@ public class ConfigProxyPanel extends JPanel{
 
 	public void setLblinfoCifrado(JLabel lblinfoCifrado) {
 		this.lblinfoCifrado = lblinfoCifrado;
+	}
+	
+	/**
+	 * 
+	 * Clase anonima para establecer la imagen de fondo en el panel de configuracion del proxy.
+	 * @author pako
+	 *
+	 */
+	class NetWorkImage extends JPanel{
+		
+		/**
+		 * NetWorkIcon
+		 */
+		private static final long serialVersionUID = 1L;
+		public Image img;
+		private LoggerUtil logger = LoggerUtil.getLoggerInstance(Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
+		
+		public NetWorkImage(){
+			try{
+				setBackground(resources.getString("uri.networkimage"));
+				setPreferredSize(new Dimension(35,25));
+			}catch(Exception e){
+				logger.severeError("Error al cargar el icono de red en el panel", e);
+			}
+			
+		}
+		
+		@Override
+		public void paint(Graphics g) {
+			int width = this.getSize().width;
+			int height =this.getSize().height;
+			if(this.img != null){
+				try{
+					g.drawImage(this.img, 0, 0, width, height, null);
+					logger.infoMessage("El icono de red, se configuro en el panel correctamente......");
+				}catch(Exception e){
+					logger.severeError("Error al cargar el panel del icono de red", e);
+				}
+			}else{
+				logger.infoMessage("Error al cargar la imagen de red en el panel");
+			}
+			super.paintComponents(g);			
+		}
+		
+		public void setBackground(String path) throws IllegalAccessException{
+			img = getResizeImageIcon(35, 30, path).getImage();
+			repaint();
+		}
+		
+		public ImageIcon getResizeImageIcon(int width,int heigth,String UrlImgToResize) throws IllegalArgumentException{
+			ImageIcon icon = new ImageIcon(getClass().getResource(UrlImgToResize));
+			Image img = icon.getImage();
+			Image imgResize = img.getScaledInstance(width, heigth, java.awt.Image.SCALE_SMOOTH);
+			return new ImageIcon(imgResize);
+		}
 	}
 }	

@@ -3,6 +3,7 @@ package com.netsettings.application.view.panel;
 import java.awt.Color; 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -45,6 +46,8 @@ public class ConfigIPpanel extends JPanel{
 	private  JTextField txtIp;
 	private  JTextField txtMask ;
 	private  JTextField txtGate ;
+	private JTextField txtPreferDNS;
+	private JTextField txtAltDNS;
 	private JLabel lblinfoEstado;
 	private JLabel lblinfoTipo;
 	
@@ -80,6 +83,11 @@ public class ConfigIPpanel extends JPanel{
 		txtGate = new JTextField(15);
 		lblinfoEstado =new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoEstado.hint"));
 		lblinfoTipo = new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoTipo.hint"));
+	}
+	
+	public void aplicarEstilos(){
+		btnGetInteface.setMnemonic(KeyEvent.VK_3);
+		btnGetInteface.setToolTipText(resources.getString("tag.newprofile.configippanel.btngetinterfaces.tootiptex"));
 	}
 	
 	public void cargarElementos() throws Exception{
@@ -137,6 +145,7 @@ public class ConfigIPpanel extends JPanel{
 		
 		layout.putConstraint(SpringLayout.WEST, txtGate, 120, SpringLayout.WEST, this);//eje X
 		layout.putConstraint(SpringLayout.NORTH, txtGate, 150, SpringLayout.NORTH, this);//eje Y
+		aplicarEstilos();
 		//detalles de interfaz
 		//Tipo de interfaz
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoTipo"));

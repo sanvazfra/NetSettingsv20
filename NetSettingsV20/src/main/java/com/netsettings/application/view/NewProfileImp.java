@@ -3,7 +3,9 @@ package com.netsettings.application.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -27,7 +29,7 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	
 	
 	/**
-	 *  
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private LoggerUtil logger = LoggerUtil.getLoggerInstance(Logger.getLogger(Logger.GLOBAL_LOGGER_NAME));
@@ -59,7 +61,7 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	private JPanel panelTitle = new JPanel();
 	private JButton btnGuardar = new JButton(resources.getString("tag.newprofile.buttoncontainer.save"));
 	private JButton btnCancelar = new JButton(resources.getString("tag.newprofile.buttoncontainer.cancel"));
-	
+	private JLabel lblTitulo = new JLabel(resources.getString("tag.newprofile.titlecontainer.title"));
 	
 	private NewProfileImp(){
 		setTitle("timeStamp: " + System.currentTimeMillis());
@@ -88,6 +90,7 @@ public class NewProfileImp extends JFrame implements NewProfile{
 		mainContainer.add(buttonsContainer,BorderLayout.SOUTH);
 		mainContainer.add(panelsContainer,BorderLayout.CENTER);		
 		mainContainer.add(titleContainer,BorderLayout.NORTH);
+		aplicarEstilos();
 		//SwingUtilities.updateComponentTreeUI(this);
 		logger.infoMessage("*********************Pantalla NEW PROFILE initialized******************");
 	}
@@ -98,9 +101,19 @@ public class NewProfileImp extends JFrame implements NewProfile{
 		}
 		return instanceNewProfil;
 	}
+	
+	public void aplicarEstilos(){
+		btnGuardar.setMnemonic(KeyEvent.VK_G);
+		btnGuardar.setToolTipText(resources.getString("tag.newprofile.guardar.tooltiptex"));
+		
+		btnCancelar.setMnemonic(KeyEvent.VK_ESCAPE); // revisa el escape
+		btnCancelar.setToolTipText(resources.getString("tag.newprofile.cancelar.tooltiptex"));
+	}
+	
 	public void cargarHeaderFooter(){
 		try{
-			panelTitle.add(new JLabel(resources.getString("tag.newprofile.titlecontainer.title")));
+			lblTitulo.setFont(new Font("Tahoma",0,18));
+			panelTitle.add(lblTitulo);
 			panelButtons.setLayout(new GridLayout(1,2));
 			panelButtons.add(btnGuardar);
 			panelButtons.add(btnCancelar);
@@ -181,6 +194,9 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	}
 	public void setDetailInterfaces(int index,String itemSelected){
 		try{
+			if(getModeInterface() == null){
+				return;
+			}
 			if(getModeInterface().getSize() != 0){
 				if(itemSelected.contains(resources.getString("tag.wi")) || itemSelected.contains(resources.getString("tag.wim")) && 
 						itemSelected.contains(resources.getString("tag.fi")) || itemSelected.contains(resources.getString("tag.fim"))){
@@ -201,6 +217,9 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	
 	@Override
 	public void setDetailRedes(int index) {
+		if(getModeRedes() == null){
+			return;
+		}
 		if(getModeRedes().getSize() != 0){
 			panelProxy.getLblinfoAuth().setText(getListaRedes().get(index).getAutentificacion());
 			panelProxy.getLblinfoCifrado().setText(getListaRedes().get(index).getCifrado());
