@@ -65,8 +65,8 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	
 	private NewProfileImp(){
 		setTitle("timeStamp: " + System.currentTimeMillis());
-		setSize(570,600);
-		setLocation(500,100);
+		setSize(570,650);
+		setLocation(400,50);
 		setResizable(false);	
 		cargarIPpanel();
 		panelIp.initRadio(true);

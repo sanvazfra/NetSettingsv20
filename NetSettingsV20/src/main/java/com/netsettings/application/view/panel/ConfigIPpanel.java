@@ -81,6 +81,8 @@ public class ConfigIPpanel extends JPanel{
 		txtIp = new JTextField(15);
 		txtMask = new JTextField(15);
 		txtGate = new JTextField(15);
+		txtPreferDNS = new JTextField(15);
+		txtAltDNS = new JTextField(15);
 		lblinfoEstado =new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoEstado.hint"));
 		lblinfoTipo = new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoTipo.hint"));
 	}
@@ -145,6 +147,24 @@ public class ConfigIPpanel extends JPanel{
 		
 		layout.putConstraint(SpringLayout.WEST, txtGate, 120, SpringLayout.WEST, this);//eje X
 		layout.putConstraint(SpringLayout.NORTH, txtGate, 150, SpringLayout.NORTH, this);//eje Y
+		
+		//DNS preferido
+		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lbldnsprefer.title"));
+		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
+		layout.putConstraint(SpringLayout.NORTH, etiqueta, 180, SpringLayout.NORTH, this);//eje Y
+		add(etiqueta);
+		
+		layout.putConstraint(SpringLayout.WEST, txtPreferDNS , 120, SpringLayout.WEST, this);//eje X
+		layout.putConstraint(SpringLayout.NORTH, txtPreferDNS, 180, SpringLayout.NORTH, this);//eje Y
+		
+		//DNS alternativo
+		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lbldnsalter.title"));
+		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
+		layout.putConstraint(SpringLayout.NORTH, etiqueta, 210, SpringLayout.NORTH, this);//eje Y
+		add(etiqueta);
+		
+		layout.putConstraint(SpringLayout.WEST, txtAltDNS , 120, SpringLayout.WEST, this);//eje X
+		layout.putConstraint(SpringLayout.NORTH, txtAltDNS, 210, SpringLayout.NORTH, this);//eje Y
 		aplicarEstilos();
 		//detalles de interfaz
 		//Tipo de interfaz
@@ -174,6 +194,8 @@ public class ConfigIPpanel extends JPanel{
 		add(txtIp);
 		add(txtMask);
 		add(txtGate);
+		add(txtPreferDNS);
+		add(txtAltDNS);
 		
 		add(lblinfoTipo);
 		add(lblinfoEstado);
@@ -184,10 +206,14 @@ public class ConfigIPpanel extends JPanel{
 			txtIp.setEnabled(false);
 			txtMask.setEnabled(false);
 			txtGate.setEnabled(false);
+			txtPreferDNS.setEnabled(false);
+			txtAltDNS.setEnabled(false);
 		}else if(rbFija.isSelected()){
 			txtIp.setEnabled(true);
 			txtMask.setEnabled(true);
 			txtGate.setEnabled(true);
+			txtPreferDNS.setEnabled(true);
+			txtAltDNS.setEnabled(true);
 		}
 	}
 	/**
