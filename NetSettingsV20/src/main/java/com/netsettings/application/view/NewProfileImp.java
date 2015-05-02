@@ -3,6 +3,7 @@ package com.netsettings.application.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -67,7 +68,8 @@ public class NewProfileImp extends JFrame implements NewProfile{
 		setTitle("timeStamp: " + System.currentTimeMillis());
 		setSize(570,650);
 		setLocation(400,50);
-		setResizable(false);	
+		setResizable(true);	
+		setMinimumSize(new Dimension(570,650));
 		cargarIPpanel();
 		panelIp.initRadio(true);
 		cargarProxyPanel();

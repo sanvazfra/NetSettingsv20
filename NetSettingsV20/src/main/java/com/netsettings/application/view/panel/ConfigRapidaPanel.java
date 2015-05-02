@@ -1,5 +1,8 @@
 package com.netsettings.application.view.panel;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
@@ -11,7 +14,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 import com.netsettings.application.view.MainWindow;
 import com.netsettings.application.view.MainWindowImp;
@@ -22,7 +24,11 @@ public class ConfigRapidaPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SpringLayout sprLConfigRap = new SpringLayout();
+	//private SpringLayout sprLConfigRap = new SpringLayout();
+	private GridBagLayout gridBagLayout = new GridBagLayout();
+	private GridBagConstraints constraint = new GridBagConstraints();
+	private Insets insets = new Insets(0, 0, 0, 0);
+
 	private String propFileName = "properties.mainw";
 	private ResourceBundle resources = ResourceBundle.getBundle(propFileName);
 	
@@ -47,35 +53,36 @@ public class ConfigRapidaPanel extends JPanel{
 	}
 	
 	public void cargarElementos() throws Exception{
-		this.setLayout(sprLConfigRap);
-		//Etiquetas
+		this.setLayout(gridBagLayout);
 		etiqueta = new JLabel(resources.getString("tag.mainwindow.configrapida.label.title"));
-		sprLConfigRap.putConstraint(SpringLayout.HORIZONTAL_CENTER, etiqueta, 0, SpringLayout.HORIZONTAL_CENTER, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, etiqueta, 20, SpringLayout.NORTH, this);//eje Y
-		this.add(etiqueta);
+		this.add(etiqueta,getConstraint(0, 0, 3, 1, 0.0, 0.0, 10, 0, 10, 0));
+		restartSize();
 		
 		etiqueta = new JLabel(resources.getString("tag.mainwindow.configrapida.label.proxy"));
-		sprLConfigRap.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, etiqueta, 60, SpringLayout.NORTH, this);//eje Y
-		this.add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(etiqueta,getConstraint(0, 1, 1, 1, 0.0, 0.0,0,5,10,0));
+		restartSize();
 		
 		etiqueta = new JLabel(resources.getString("tag.mainwindow.configrapida.label.puerto"));
-		sprLConfigRap.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, etiqueta, 100, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(etiqueta,getConstraint(0, 2, 1, 1, 0.0, 0.0,0,5,10,0));
+		restartSize();
 		
 		//Cajas de texto
-		sprLConfigRap.putConstraint(SpringLayout.WEST, txtProxyAdd, 150, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, txtProxyAdd, 60, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		this.add(txtProxyAdd,getConstraint(1, 1, 2, 1, 0.0, 0.0,0,5,5,5));
+		restartSize();
 		
-		sprLConfigRap.putConstraint(SpringLayout.WEST, txtPuerto, 150, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, txtPuerto, 100, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		this.add(txtPuerto,getConstraint(1, 2, 2, 1, 0.0, 0.0,0,5,5,5));
+		restartSize();
 		
 		//Botones
-		sprLConfigRap.putConstraint(SpringLayout.WEST, btnSet, 50, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, btnSet, 140, SpringLayout.NORTH, this);//eje Y
+		this.add(btnSet,getConstraint(0, 3, 1, 1, 0.0, 0.0,0,0,5,0));
+		restartSize();
 		
-		sprLConfigRap.putConstraint(SpringLayout.WEST, btnCancel, 200, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, btnCancel, 140, SpringLayout.NORTH, this);//eje Y
+		this.add(btnCancel,getConstraint(1, 3, 1, 1, 0.0, 0.0,0,5,5,0));
+		restartSize();
 		
 		//Radios
 		radioGroup.add(jrbEnabled);
@@ -84,36 +91,66 @@ public class ConfigRapidaPanel extends JPanel{
 		jrbDisabled.setActionCommand("disabled");
 		jrbDisabled.setSelected(true);
 		
-		sprLConfigRap.putConstraint(SpringLayout.WEST, jrbEnabled, 190, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, jrbEnabled, 195, SpringLayout.NORTH, this);//eje Y
-	
-		sprLConfigRap.putConstraint(SpringLayout.WEST, jrbDisabled, 230, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, jrbDisabled, 195, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.WEST;
+		this.add(jrbEnabled,getConstraint(1, 4, 1, 1, 0.0, 0.0,0,5,5,0));
 		
+		constraint.anchor = GridBagConstraints.WEST;
+		this.add(jrbDisabled,getConstraint(2, 4, 1, 1, 1.0, 0.0,0,0,5,0));
+		restartSize();
+
 		//Text Area
 		area.setEnabled(false);
-		sprLConfigRap.putConstraint(SpringLayout.WEST, lblOverride, 50, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, lblOverride, 200, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(lblOverride,getConstraint(0, 4, 1, 1, 0.0, 0.0,0,10,0,0));
+		restartSize();
 		
-		sprLConfigRap.putConstraint(SpringLayout.WEST, scroll, 50, SpringLayout.WEST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.NORTH, scroll, 220, SpringLayout.NORTH, this);//eje Y
-		
+		setStretch(3);
+		this.add(scroll,getConstraint(0, 5, 3, 3, 0.0, 1.0,0,5,5,5));
+		restartSize();
 		//CheckBox
-		sprLConfigRap.putConstraint(SpringLayout.EAST, chkLocal, -26, SpringLayout.EAST, this);//eje X
-		sprLConfigRap.putConstraint(SpringLayout.SOUTH, chkLocal, -12 , SpringLayout.SOUTH, this);//eje Y
-		
-		this.add(etiqueta);
-		this.add(txtProxyAdd);
-		this.add(txtPuerto);
-		this.add(btnSet);
-		this.add(btnCancel);
-		this.add(jrbEnabled);
-		this.add(jrbDisabled);
-		this.add(lblOverride);
-		this.add(scroll);
-		this.add(chkLocal);
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(chkLocal,getConstraint(1, 8, 2, 1, 0.0, 0.0,0,0,5,0));
+		restartSize();
 	}
-
+	
+	public GridBagConstraints getConstraint(int x, int y, int width, int height, double weightx,double weighty,
+			int top, int left, int bottom, int right){
+		constraint.gridx=x;
+		constraint.gridy=y;
+		constraint.gridwidth = width;
+		constraint.gridheight = height;
+		constraint.weightx= weightx;
+		constraint.weighty= weighty;
+		insets.set(top, left, bottom, right);
+		constraint.insets = insets;
+		return constraint;
+	}
+	
+	public void setStretch(int direction){
+		switch (direction) {
+		case 1:
+				constraint.fill = GridBagConstraints.HORIZONTAL;
+			break;
+		case 2:
+				constraint.fill = GridBagConstraints.VERTICAL;
+			break;
+		case 3:
+			constraint.fill = GridBagConstraints.BOTH;
+			break;
+		default://restart
+				constraint.fill = GridBagConstraints.NONE;
+			break;
+		}
+}
+	public void restartSize(){
+		constraint.gridwidth = 0;
+		constraint.gridheight = 0;
+		constraint.weightx = 0.0;
+		constraint.weighty = 0.0;
+		insets.set(0, 0, 0, 0);
+		constraint.fill = GridBagConstraints.NONE;
+		constraint.anchor = GridBagConstraints.CENTER;
+	}
 	/**
 	 * @return the mainWindow
 	 */

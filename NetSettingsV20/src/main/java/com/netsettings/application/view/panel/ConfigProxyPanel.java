@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -35,7 +38,11 @@ public class ConfigProxyPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private String propFileName = "properties.newp";
 	private ResourceBundle resources = ResourceBundle.getBundle(propFileName);
-	private SpringLayout layout = new SpringLayout();
+
+//	private SpringLayout layout = new SpringLayout();
+	private GridBagLayout gridBagLayout = new GridBagLayout();
+	private GridBagConstraints constraint = new GridBagConstraints();
+	private Insets insets = new Insets(0, 0, 0, 0);
 	private JFrame context;
 	private ComboHandler comboHandler;
 	private ClicHandler clichandler;
@@ -55,7 +62,8 @@ public class ConfigProxyPanel extends JPanel{
 	
 	
 	public ConfigProxyPanel(JFrame context){
-		setLayout(layout);
+		//setLayout(layout);
+		setLayout(gridBagLayout);
 		setBorder(BorderFactory.createTitledBorder(null, "Config. Proxy", TitledBorder.DEFAULT_JUSTIFICATION, 
 				TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 		this.setContext(context);
@@ -88,78 +96,111 @@ public class ConfigProxyPanel extends JPanel{
 		grupoProxy.add(rbDisableProxy);
 		rbEnableProxy.setSelected(true);
 		//radios
-		layout.putConstraint(SpringLayout.WEST, rbEnableProxy, 100, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, rbEnableProxy, 50, SpringLayout.NORTH, this);//eje Y
+		this.add(rbEnableProxy,getConstraint(1, 0, 1, 1, 0.0, 0.0, 0, 0, 5, 0));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, rbDisableProxy, 200, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, rbDisableProxy, 50, SpringLayout.NORTH, this);//eje Y
+		this.add(rbDisableProxy,getConstraint(2, 0, 1, 1, 1.0, 0.0, 0, 0, 5, 0));
+		restartSize();
 		
-		//textos
+		//button,text's
+		this.add(cmbNetworks,getConstraint(3, 0, 1, 1, 0.0, 0.0, 0, 0, 5, 0));
+		restartSize();
+
+		constraint.anchor = GridBagConstraints.EAST;
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxypanel.lbldireccion.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, etiqueta, 90, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		this.add(etiqueta,getConstraint(0, 1, 1, 1, 0.0, 0.0, 0, 0, 10, 5));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, txtProxy, 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, txtProxy, 90, SpringLayout.NORTH, this);//eje Y
+		setStretch(3);
+		this.add(txtProxy,getConstraint(1, 1, 2, 1, 0.0, 0.0, 0, 0, 10, 0));
+		restartSize();
 		
-		//comboBox
-		layout.putConstraint(SpringLayout.WEST, cmbNetworks, 300, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, cmbNetworks, 50, SpringLayout.NORTH, this);//eje Y
-		
-		layout.putConstraint(SpringLayout.WEST, btnGetNeworks, 300, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, btnGetNeworks, 90, SpringLayout.NORTH, this);//eje Y
+		this.add(btnGetNeworks,getConstraint(3, 1, 1, 1, 0.0, 0.0, 0, 0, 10, 0));
+		restartSize();
+	
+		//detalles de red
+		//Tipo de red
+		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxy.lblinfoauth"));
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(etiqueta,getConstraint(0, 2, 1, 1, 0.0, 0.0, 0, 0, 0, 5));
+		restartSize();
+	
+		this.add(lblinfoAuth,getConstraint(1, 2, 1, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
+
+		//estado de red
+		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxy.lblinfocifrado"));
+		constraint.anchor = GridBagConstraints.EAST;
+		this.add(etiqueta,getConstraint(0, 3, 1, 1, 0.0, 0.0, 0, 0, 10, 5));
+		restartSize();
+	
+		this.add(lblinfoCifrado,getConstraint(1, 3, 1, 1, 0.0, 0.0, 0, 0, 10, 0));
+		restartSize();
 		
 		//Avisos
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxypanel.lblavisoactualizaredes.title"));
 		etiqueta.setForeground(Color.red);
 		etiqueta.setFont(new Font("Arial", Font.PLAIN, 12));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 10, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, etiqueta, 170, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.WEST;
+		this.add(etiqueta,getConstraint(0, 4, 4, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
+		
+		constraint.anchor = GridBagConstraints.CENTER;
+		this.add(networkImage,getConstraint(3, 4, 1, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
 		
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxypanel.lblavisoconexionauto.title"));
 		etiqueta.setForeground(Color.red);
 		etiqueta.setFont(new Font("Arial", Font.PLAIN, 12));
-		layout.putConstraint(SpringLayout.WEST,etiqueta, 10, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, etiqueta, 190, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
-		aplicarEstilos();
-		
-		//detalles de red
-		//Tipo de red
-		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxy.lblinfoauth"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 100, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
-		
-		layout.putConstraint(SpringLayout.WEST, lblinfoAuth, 140, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, lblinfoAuth, 100, SpringLayout.NORTH, this);//eje Y
 
-		//estado de red
-		etiqueta = new JLabel(resources.getString("tag.newprofile.configproxy.lblinfocifrado"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 120, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
 		
-		layout.putConstraint(SpringLayout.WEST, lblinfoCifrado, 140, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, lblinfoCifrado, 120, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.WEST;
+		this.add(etiqueta,getConstraint(0, 5, 4, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
 		
-		//revision pendiente para imagen*****************************
-		layout.putConstraint(SpringLayout.WEST, networkImage, 338, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.SOUTH, networkImage, 171, SpringLayout.NORTH, this);//eje Y
-		
-		add(rbEnableProxy);
-		add(rbDisableProxy);
-		add(txtProxy);
-		add(cmbNetworks);
-		add(btnGetNeworks);
-		add(networkImage);
-		add(lblinfoAuth);
-		add(lblinfoCifrado);
+	
+		aplicarEstilos();
 		
 	}
 	
+	public GridBagConstraints getConstraint(int x, int y, int width, int height, double weightx,double weighty,
+			int top, int left, int bottom, int right){
+		constraint.gridx=x;
+		constraint.gridy=y;
+		constraint.gridwidth = width;
+		constraint.gridheight = height;
+		constraint.weightx= weightx;
+		constraint.weighty= weighty;
+		insets.set(top, left, bottom, right);
+		constraint.insets = insets;
+		return constraint;
+	}
+	
+	public void setStretch(int direction){
+		switch (direction) {
+		case 1:
+				constraint.fill = GridBagConstraints.HORIZONTAL;
+			break;
+		case 2:
+				constraint.fill = GridBagConstraints.VERTICAL;
+			break;
+		case 3:
+			constraint.fill = GridBagConstraints.BOTH;
+			break;
+		default://restart
+				constraint.fill = GridBagConstraints.NONE;
+			break;
+		}
+	}
+	public void restartSize(){
+		constraint.gridwidth = 0;
+		constraint.gridheight = 0;
+		constraint.weightx = 0.0;
+		constraint.weighty = 0.0;
+		insets.set(0, 0, 0, 0);
+		constraint.fill = GridBagConstraints.NONE;
+		constraint.anchor = GridBagConstraints.CENTER;
+	}
 	public void aplicarEstilos(){
 		
 //		btnGuardar.setIcon(commonView.getResizeImageIcon(30, 30,resources.getString("uri.guardar")));

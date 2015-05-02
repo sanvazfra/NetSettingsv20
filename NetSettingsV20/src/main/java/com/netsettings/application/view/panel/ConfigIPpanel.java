@@ -2,6 +2,10 @@ package com.netsettings.application.view.panel;
 
 import java.awt.Color; 
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridBagLayoutInfo;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ResourceBundle;
@@ -35,7 +39,10 @@ public class ConfigIPpanel extends JPanel{
 	private ComboHandler comboHandler;
 	private RadioHandler radioHandler;
 	//Objetos graficos
-	private SpringLayout layout = new SpringLayout();
+	//private SpringLayout layout = new SpringLayout();
+	private GridBagLayout gridBagLayout = new GridBagLayout();
+	private GridBagConstraints constraint = new GridBagConstraints();
+	private Insets insets = new Insets(0, 0, 0, 0);
 	private  JLabel etiqueta;
 	private  JTextField txtNombre;
 	private  JComboBox<String> cmbInterfaces;
@@ -55,7 +62,8 @@ public class ConfigIPpanel extends JPanel{
 	
 	
 	public ConfigIPpanel(JFrame context){
-		this.setLayout(layout);
+		//this.setLayout(layout);
+		this.setLayout(gridBagLayout);
 		this.setBorder(BorderFactory.createTitledBorder(null, "Config. IP", TitledBorder.DEFAULT_JUSTIFICATION, 
 				TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 		this.setContext(context);
@@ -95,111 +103,138 @@ public class ConfigIPpanel extends JPanel{
 	public void cargarElementos() throws Exception{
 		//Cajas de texto
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblnombre.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 20, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta,getConstraint(0, 0, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, txtNombre, 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtNombre, 20, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		add(txtNombre,getConstraint(1, 0, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
-		//ComboBox
-		layout.putConstraint(SpringLayout.WEST, cmbInterfaces, 5, SpringLayout.EAST, txtNombre);//eje X
-		layout.putConstraint(SpringLayout.NORTH, cmbInterfaces, 20, SpringLayout.NORTH, this);//eje Y
+		add(cmbInterfaces, getConstraint(3, 0, 2, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();		
 		
-		layout.putConstraint(SpringLayout.WEST, btnGetInteface, 40, SpringLayout.EAST, rbDHCP);//eje X
-		layout.putConstraint(SpringLayout.NORTH, btnGetInteface, 50, SpringLayout.NORTH, this);//eje Y
+		//ComboBox		
+		add(btnGetInteface,getConstraint(3, 1, 2, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
 		//Radios
 		grupo.add(rbFija);
 		grupo.add(rbDHCP);
 		rbDHCP.setSelected(true);
 		
-		layout.putConstraint(SpringLayout.WEST, rbFija, 100, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, rbFija, 60, SpringLayout.NORTH, this);//eje Y
-		
-		layout.putConstraint(SpringLayout.WEST, rbDHCP, 200, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, rbDHCP, 60, SpringLayout.NORTH, this);//eje Y
+		add(rbFija,getConstraint(1, 1, 1, 1, 1.0, 0.0, 0, 0, 0, 0));
+		add(rbDHCP, getConstraint(2, 1, 1, 1, 1.0, 0.0, 0, 0, 0, 0));  //------------->
+		restartSize();
 		
 		//Etiquetas/Cajas de texto
 		//IP
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblip.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 90, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
-		
-		layout.putConstraint(SpringLayout.WEST, txtIp, 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtIp, 90, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta,getConstraint(0, 2, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
+			
+		setStretch(1);
+		add(txtIp,getConstraint(1, 2, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
 		//Mask
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblmask.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 120, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta,getConstraint(0, 3, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, txtMask, 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtMask, 120, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		add(txtMask,getConstraint(1, 3, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
 		//Gateway
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblgate.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 150, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta,getConstraint(0, 4, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, txtGate, 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtGate, 150, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		add(txtGate, getConstraint(1, 4, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
 		//DNS preferido
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lbldnsprefer.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 180, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
-		
-		layout.putConstraint(SpringLayout.WEST, txtPreferDNS , 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtPreferDNS, 180, SpringLayout.NORTH, this);//eje Y
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta, getConstraint(0, 5, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
+	
+		setStretch(1);
+		add(txtPreferDNS, getConstraint(1, 5, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
 		//DNS alternativo
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lbldnsalter.title"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 50, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 210, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta, getConstraint(0, 6, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, txtAltDNS , 120, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, txtAltDNS, 210, SpringLayout.NORTH, this);//eje Y
+		setStretch(1);
+		add(txtAltDNS,getConstraint(1, 6, 2, 1, 1.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 		aplicarEstilos();
+		
 		//detalles de interfaz
 		//Tipo de interfaz
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoTipo"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 330, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 100, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta, getConstraint(3, 2, 1, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, lblinfoTipo, 390, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, lblinfoTipo, 100, SpringLayout.NORTH, this);//eje Y
+		add(lblinfoTipo,getConstraint(4, 2, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
 
 		//estado de interfaz
 		etiqueta = new JLabel(resources.getString("tag.newprofile.configippanel.lblinfoEstado"));
-		layout.putConstraint(SpringLayout.WEST, etiqueta, 330, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, etiqueta, 120, SpringLayout.NORTH, this);//eje Y
-		add(etiqueta);
+		constraint.anchor = GridBagConstraints.EAST;
+		add(etiqueta, getConstraint(3, 3, 1, 1, 0.0, 0.0, 0, 0, 0, 0));
+		restartSize();
 		
-		layout.putConstraint(SpringLayout.WEST, lblinfoEstado, 390, SpringLayout.WEST, this);//eje X
-		layout.putConstraint(SpringLayout.NORTH, lblinfoEstado, 120, SpringLayout.NORTH, this);//eje Y
-		
-		//Agregamos los objetos al layout
-		add(txtNombre);
-		add(cmbInterfaces);
-		add(btnGetInteface);
-		add(rbFija);
-		add(rbDHCP);
-		add(txtIp);
-		add(txtMask);
-		add(txtGate);
-		add(txtPreferDNS);
-		add(txtAltDNS);
-		
-		add(lblinfoTipo);
-		add(lblinfoEstado);
-		
+		add(lblinfoEstado,getConstraint(4, 3, 1, 1, 0.0, 0.0, 0, 0, 0, 10));
+		restartSize();
+	}
+	public GridBagConstraints getConstraint(int x, int y, int width, int height, double weightx,double weighty,
+			int top, int left, int bottom, int right){
+		constraint.gridx=x;
+		constraint.gridy=y;
+		constraint.gridwidth = width;
+		constraint.gridheight = height;
+		constraint.weightx= weightx;
+		constraint.weighty= weighty;
+		insets.set(top, left, bottom, right);
+		constraint.insets = insets;
+		return constraint;
+	}
+	
+	public void setStretch(int direction){
+		switch (direction) {
+		case 1:
+				constraint.fill = GridBagConstraints.HORIZONTAL;
+			break;
+		case 2:
+				constraint.fill = GridBagConstraints.VERTICAL;
+			break;
+		case 3:
+			constraint.fill = GridBagConstraints.BOTH;
+			break;
+		default://restart
+				constraint.fill = GridBagConstraints.NONE;
+			break;
+		}
+	}
+	public void restartSize(){
+		constraint.gridwidth = 0;
+		constraint.gridheight = 0;
+		constraint.weightx = 0.0;
+		constraint.weighty = 0.0;
+		insets.set(0, 0, 0, 0);
+		constraint.fill = GridBagConstraints.NONE;
+		constraint.anchor = GridBagConstraints.CENTER;
 	}
 	public void changeStateTexts(){
 		if(rbDHCP.isSelected()){

@@ -1,6 +1,7 @@
 package com.netsettings.application.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -52,10 +53,13 @@ public class MainWindowImp extends JFrame implements MainWindow {
 	
 	public MainWindowImp(){
 		setTitle(resources.getString("tag.mainwindow.title"));
-		setSize(420,400);
-		setLocation(250,250);
-		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width; 
+		int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+		setSize((ancho/3) ,(alto/2));
+		setLocation((ancho / 2) - (this.getWidth() / 2), (alto / 2) - (this.getHeight() / 2));
+		setMinimumSize(new Dimension((ancho/3) ,(alto/2)));
+		//setResizable(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);	
 		setsDirectorioTrabajo(System.getProperty(
 					resources.getString("config.currentlocation")));
 		cargaItemsConfigRapida();

@@ -2,6 +2,8 @@ package com.netsettings.application.view.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -20,10 +22,39 @@ public class EnableItemsPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SpringLayout sprLConfiJustEnabled = new SpringLayout();
+	private GridBagLayout gridBagLayout = new GridBagLayout();
+	private GridBagConstraints constraint = new GridBagConstraints();
+	
 	private Object[][] data ={
 			{"Casa","10/10/2014"},
-			{"Empresa","12/09/2014"}
+			{"Empresa","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"},
+			{"Escuela","12/09/2014"}
 			}; 
 	private String[] columnNames = {"Perfil", "Fecha de creacion"}; 
 	private DataModel dtm;
@@ -42,18 +73,25 @@ public class EnableItemsPanel extends JPanel{
 	}
 	
 	public void cargarElementos() throws Exception{
-		this.setLayout(sprLConfiJustEnabled);
+		this.setLayout(gridBagLayout);
 		
 		dtm= new DataModel(data,columnNames);
 		table = new JTable(dtm);
 		table.setPreferredScrollableViewportSize(new Dimension(408, 290));
 					
-		JScrollPane scrollPane = new JScrollPane(table);
-		sprLConfiJustEnabled.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, this);
-		sprLConfiJustEnabled.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, this);
-		
+		JScrollPane scrollPane = new JScrollPane(table);		
 		scrollPane.getViewport().setBackground(colorFondoTabbedPane);
-		this.add(scrollPane);
+		constraint.fill = GridBagConstraints.BOTH;
+		this.add(scrollPane,getConstraint(0, 0, 1, 1, 1.0, 1.0));
+	}
+	public GridBagConstraints getConstraint(int x, int y, int width, int height, double weightx,double weighty){
+		constraint.gridx=x;
+		constraint.gridy=y;
+		constraint.gridwidth = width;
+		constraint.gridheight = height;
+		constraint.weightx= weightx;
+		constraint.weighty= weighty;
+		return constraint;
 	}
 	public void createmenuContextual() throws Exception,NullPointerException,MissingResourceException,ClassCastException{
 			if(table != null){
