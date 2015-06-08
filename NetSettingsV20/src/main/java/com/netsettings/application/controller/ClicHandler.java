@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.netsettings.application.model.Perfil;
 import com.netsettings.application.view.NewProfile;
 import com.netsettings.application.view.Window;
 
@@ -36,6 +37,17 @@ public class ClicHandler implements ActionListener{
 				newProf.crearRedes();
 			break;
 		case 2:
+				newProf = (NewProfile)context;
+				Perfil per;
+				if((per=newProf.getPerfil()) != null){
+					new PerfilesControllerImp((JFrame) newProf).saverProfile(per);
+				}else{
+					return;
+				}
+			break;
+		case 3:
+			newProf = (NewProfile)context;
+			newProf.exitVentana(0);
 			break;
 		default:
 			logger.severeError("Error: No se pudo seleccionar el comando solicitado", null);
@@ -51,9 +63,12 @@ public class ClicHandler implements ActionListener{
 			return 0;
 		}else if(comando.equalsIgnoreCase(resources.getString("command.getRedes"))){
 			return 1;
+		}else if(comando.equalsIgnoreCase(resources.getString("command.saveprofile"))){
+			return 2;
+		}else if(comando.equalsIgnoreCase(resources.getString("command.cancelprofile"))){
+			return 3;
 		}else return -1;
 	}
-
 	/**
 	 * @return the resources
 	 */

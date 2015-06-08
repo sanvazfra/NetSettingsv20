@@ -139,7 +139,11 @@ public class MainWindowImp extends JFrame implements MainWindow {
 			}
 		}	
 	}
-
+	@Override
+	public void mostrarPopMessage(String message, String titulo, int tipo) {
+		// TODO Auto-generated method stub
+		
+	}
 	public void creaMenuContextual() {
 		if(panelEnabledItems != null){
 			try {
@@ -222,5 +226,7 @@ public class MainWindowImp extends JFrame implements MainWindow {
 			mostrarNewProfile();
 		}
 	}
+
+
 
 }

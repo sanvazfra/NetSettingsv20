@@ -323,4 +323,25 @@ public class ConfigProxyPanel extends JPanel{
 			return new ImageIcon(imgResize);
 		}
 	}
+
+	/**
+	 * @return the rbEnableProxy
+	 */
+	public JRadioButton getRbEnableProxy() {
+		return rbEnableProxy;
+	}
+
+	/**
+	 * @return the rbDisableProxy
+	 */
+	public JRadioButton getRbDisableProxy() {
+		return rbDisableProxy;
+	}
+
+	/**
+	 * @return the txtProxy
+	 */
+	public String getProxy() {
+		return txtProxy.getText().toString();
+	}
 }	

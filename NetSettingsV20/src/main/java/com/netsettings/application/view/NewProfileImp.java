@@ -18,10 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.netsettings.application.controller.ClicHandler;
 import com.netsettings.application.controller.CommonController;
 import com.netsettings.application.controller.LoggerUtil;
 import com.netsettings.application.controller.ThreadOp;
 import com.netsettings.application.model.Interfaz;
+import com.netsettings.application.model.Perfil;
 import com.netsettings.application.model.Red;
 import com.netsettings.application.view.panel.ConfigIPpanel;
 import com.netsettings.application.view.panel.ConfigProxyPanel;
@@ -46,6 +48,8 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	private ArrayList<Red> listaRedes= null;
 	private DefaultComboBoxModel<String> modeRedes;
 	private DefaultComboBoxModel<String> modeInterface;
+	private ClicHandler clichandler = new ClicHandler(this);
+	private CommonView common = new CommonView();
 	//Elementos graficos
 	//Layouts
 	private BorderLayout borderL = new BorderLayout();
@@ -107,9 +111,13 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	public void aplicarEstilos(){
 		btnGuardar.setMnemonic(KeyEvent.VK_G);
 		btnGuardar.setToolTipText(resources.getString("tag.newprofile.guardar.tooltiptex"));
+		btnGuardar.setActionCommand(resources.getString("command.saveprofile"));
+		btnGuardar.addActionListener(clichandler);
 		
 		btnCancelar.setMnemonic(KeyEvent.VK_ESCAPE); // revisa el escape
 		btnCancelar.setToolTipText(resources.getString("tag.newprofile.cancelar.tooltiptex"));
+		btnCancelar.setActionCommand(resources.getString("command.cancelprofile"));
+		btnCancelar.addActionListener(clichandler);
 	}
 	
 	public void cargarHeaderFooter(){
@@ -188,8 +196,150 @@ public class NewProfileImp extends JFrame implements NewProfile{
 			panelProxy.getCmbNetworks().addItem(red.getNombre());
 		}
 	}
-
-
+	/**
+	 * Metodos para apoyo de validacion 
+	 * @return
+	 */
+	public boolean validateInterfaz(){
+		if(panelIp.getCmbInterfaces().getSelectedItem().toString() != "[Get interfaces]"){
+			return true;
+		}
+		return false;
+	}
+	public boolean validateWifiSelection(){
+		if((panelIp.getCmbInterfaces().getSelectedItem().toString().startsWith("Wi") || 
+				panelIp.getCmbInterfaces().getSelectedItem().toString().startsWith("WI")) &&
+				(panelIp.getCmbInterfaces().getSelectedItem().toString().endsWith("Fi") || 
+				panelIp.getCmbInterfaces().getSelectedItem().toString().startsWith("FI"))){
+			return true;
+		}
+		return false;
+		
+			
+	}
+	public boolean validateNetwork(){
+		if(panelProxy.getCmbNetworks().getSelectedItem().toString() != "[Get networks]"){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Metodo general de validacion
+	 */
+	@Override
+	public Perfil getPerfil() {
+		Perfil perfil = new Perfil(); // Nueva instancia para llenar con los datos del UI
+		boolean validate = true; //flag para validar si hubo error
+		String comb="";
+		String msg = ""; //guarda el mensaje
+				
+		if(panelProxy.getRbEnableProxy().isSelected()){// si esta habilitado el proxy se valida lo siguiente:
+			if(common.validarIP(panelProxy.getProxy())){//tamaño y formato de IP
+				perfil.setDirproxy(panelProxy.getProxy());
+				comb += "P";	
+			}else{
+				validate = false;
+				msg=resources.getString("msg.val.proxy");
+			}
+		}
+		
+		if(common.validarLenght(panelIp.getNombrePerfil())){//la existencia del nombre se valida en una config FIJA o DHCP 
+			perfil.setNombre(panelIp.getNombrePerfil()); 
+			if(panelIp.getRbFija().isSelected()){   // si es esta habilitada la opcion FIJA se valida lo siguiente:
+				comb += "F";	
+				if(common.validarIP(panelIp.getIp())){//formato de IP
+					perfil.setIp(panelIp.getIp());
+					if(common.validarIP(panelIp.getMask())){//formato de la MASK
+						perfil.setMask(panelIp.getMask());
+						if(common.validarIP(panelIp.getGate())){//formato de la puerta de enlace
+							perfil.setGateway(panelIp.getGate());
+							if(common.validarIP(panelIp.getTxtPreferDNS())){ //formato del DNS preferido
+								perfil.setDnspref(panelIp.getTxtPreferDNS());
+								if(common.validarIP(panelIp.getTxtAltDNS())){ //formato de DNS alternitivo
+									perfil.setDnsalter(panelIp.getTxtAltDNS());
+										if(validateInterfaz()){ // de debe elegir una interfaz
+											if(validateWifiSelection()){ //Si se selecciona Wi-Fi como interfaz se valida lo siguiente:
+												if(validateNetwork()){//se valida que halla redes seleccionadas
+													//se guarda la interface y el nombre de la red
+													perfil.setInterfaceName(panelIp.getCmbInterfaces().getSelectedItem().toString());
+													perfil.setNetworkName(panelProxy.getCmbNetworks().getSelectedItem().toString());
+												}else{
+													validate = false;
+													msg=resources.getString("msg.val.network");
+												}
+											}else{ //seleccion diferente a Wi-Fi, no se debe seleccionar red.
+												//guarda solo la interfaz a configurar.
+												perfil.setInterfaceName(panelIp.getCmbInterfaces().getSelectedItem().toString());
+												logger.infoMessage("No es necesario seleccionar redes");
+											}
+										}else{
+											validate = false;
+											msg=resources.getString("msg.val.interfaz");
+										}
+									
+								}else{
+									validate = false;
+									msg=resources.getString("msg.val.dnsalter");
+								}
+							}else{
+								validate = false;
+								msg=resources.getString("msg.val.dns");	
+							}
+						}else{
+							validate = false;
+							msg=resources.getString("msg.val.gateway");
+						}
+					}else{
+						validate = false;
+						msg=resources.getString("msg.val.mask");	
+					}
+				}else{
+					validate = false;
+					msg=resources.getString("msg.val.ip");	
+				}
+			}else{// si es esta habilitada la opcion DHCP se valida lo siguiente:
+				comb += "D";
+				if(validateInterfaz()){ // se debe elegir una interfaz
+					if(validateWifiSelection()){ //Si se selecciona Wi-Fi como interfaz se valida lo siguiente
+						if(validateNetwork()){//se valida que halla redes seleccionadas
+							//se guarda la interface y el nombre de la red
+							perfil.setInterfaceName(panelIp.getCmbInterfaces().getSelectedItem().toString());
+							perfil.setNetworkName(panelProxy.getCmbNetworks().getSelectedItem().toString());	
+						}else{
+							validate = false;
+							msg=resources.getString("msg.val.network");
+						}
+					}else{//seleccion diferente a Wi-Fi, no se debe seleccionar red.
+						//guarda solo la interfaz a configurar.
+						perfil.setInterfaceName(panelIp.getCmbInterfaces().getSelectedItem().toString());
+						logger.infoMessage("No es necesario seleccionar redes");
+					}
+				}else{
+					validate = false;
+					msg=resources.getString("msg.val.interfaz");
+				}
+			}
+			
+		}else{
+			validate = false;
+			msg=resources.getString("msg.val.nombreper");
+		}
+		
+		
+		if(validate){//si la validacion termino con exito, regres la instancia Perfil al metodo invocador.
+			logger.infoMessage("Datos para la configuracion de perfilc correctos!!");	
+			perfil.setComb(common.evaluateComb(comb));
+			logger.infoMessage(String.valueOf(perfil.getComb()));
+			return perfil;
+		}else{
+			perfil = null;
+			mostrarPopMessage(msg, "Aviso", JOptionPane.INFORMATION_MESSAGE); //muestra el mensaje de advertencia
+			comb = "";
+			return null;
+		}
+	}
+	
 	@Override
 	public void exitApp(int flagStatus) {
 		// TODO Auto-generated method stub		
@@ -216,7 +366,10 @@ public class NewProfileImp extends JFrame implements NewProfile{
 		}
 		
 	}
-	
+	@Override
+	public void mostrarPopMessage(String message, String titulo, int tipo) {
+		JOptionPane.showMessageDialog(null, message,titulo,tipo);
+	}
 	@Override
 	public void setDetailRedes(int index) {
 		if(getModeRedes() == null){
@@ -235,6 +388,7 @@ public class NewProfileImp extends JFrame implements NewProfile{
 		switch (flagStatus) {
 			case 0:
 				commonHand.salirWindow(this);
+				logger.infoMessage("¡¡Ventana cerrada correctamene!!");
 			break;
 		case 1:
 				logger.severeError("La ventana " + this.getClass().getCanonicalName() + " inicio con errores y finalizo el proceso!!!",null);
@@ -311,4 +465,8 @@ public class NewProfileImp extends JFrame implements NewProfile{
 	public void setModeInterface(DefaultComboBoxModel<String> modeInterface) {
 		this.modeInterface = modeInterface;
 	}
+
+
+
+
 }

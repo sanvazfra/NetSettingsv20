@@ -285,4 +285,60 @@ public class ConfigIPpanel extends JPanel{
 	public void setLblinfoEstado(JLabel lblinfoEstado) {
 		this.lblinfoEstado = lblinfoEstado;
 	}
+	//GET DATA CAMPOS
+	/**
+	 * @return the txtNombre
+	 */
+	public String getNombrePerfil() {
+		return txtNombre.getText().toString();
+	}
+
+	/**
+	 * @return the txtIp
+	 */
+	public String getIp() {
+		return txtIp.getText().toString();
+	}
+
+	/**
+	 * @return the txtMask
+	 */
+	public String getMask() {
+		return txtMask.getText().toString();
+	}
+
+	/**
+	 * @return the txtGate
+	 */
+	public String getGate() {
+		return txtGate.getText().toString();
+	}
+
+	/**
+	 * @return the txtPreferDNS
+	 */
+	public String getTxtPreferDNS() {
+		return txtPreferDNS.getText().toString();
+	}
+
+	/**
+	 * @return the txtAltDNS
+	 */
+	public String getTxtAltDNS() {
+		return txtAltDNS.getText().toString();
+	}
+
+	/**
+	 * @return the rbFija
+	 */
+	public JRadioButton getRbFija() {
+		return rbFija;
+	}
+
+	/**
+	 * @return the rbDHCP
+	 */
+	public JRadioButton getRbDHCP() {
+		return rbDHCP;
+	}
 }
